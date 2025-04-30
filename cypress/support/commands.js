@@ -26,3 +26,16 @@ Cypress.Commands.add('token', (email, senha) => {
           failOnStatusCode: false
     })
  })
+
+ Cypress.Commands.add('cadastrarUsuario', (usuario) => {
+    cy.request({
+      method: 'POST',
+      url: '/usuarios', // endpoint da Serverest
+      body: usuario,
+      failOnStatusCode: false // opcional, caso queira tratar erros manualmente
+    }).then((response) => {
+      expect(response.status).to.eq(201); // ou o status que você espera
+      Cypress.env('idUsuario', response.body._id); // guarda o ID do usuário criado
+      return response;
+    });
+  });
